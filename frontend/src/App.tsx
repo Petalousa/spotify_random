@@ -1,6 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect, useCallback } from 'react'
 import './App.css'
 import axios, { AxiosResponse } from 'axios';
 import Tile from './components/tile';
@@ -16,20 +14,23 @@ function App() {
   const [songInfo, setSongInfo] = useState([]);
   const [numSongsToLoad, setNumSongsToLoad] = useState(10);
 
+  
   useEffect(()=>{
     loadSongs((res: AxiosResponse)=>{
       setSongInfo(res.data);
       console.log("Initial songs loaded.");
     })
+  // this should only trigger once on page load.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const loadSongs = (onSuccess: CallableFunction) => {
+  const loadSongs = useCallback((onSuccess: CallableFunction) => {
     console.log("Loading songs...");
     axios.get(`api/random?n=${numSongsToLoad}`).then(
       (res)=>{onSuccess(res)},
       (error) => {console.error(error.status, "Song endpoint failed", error.message)}
     );
-  }
+  }, [numSongsToLoad])
 
   const onSongLoadClick = () => {
     loadSongs((res: AxiosResponse)=>{
