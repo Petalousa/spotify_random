@@ -1,7 +1,11 @@
+# About
+
 Frontend: React + TypeScript + Vite
 Backend: Flask + Sqlite3 Database
 
-# RUN:
+Simple React.js + TypeScript app I can use to play random spotify songs. I wanted an account-agnostic way to play any song that I had played previously. The sqlite3 database file was generated via a dump of all of my spotify listens.
+
+# How to run:
 
 ## frontend:
 1. `cd frontend`
