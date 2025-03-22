@@ -59,16 +59,17 @@ function App() {
       </div>
       <div style={{padding: "1em"}}>
         <button onClick={onSongLoadClick}>
-          Load {numSongsToLoad} More Songs...
+          Load {numSongsToLoad} More Song{(numSongsToLoad > 1) ? "s" : ""}...
         </button>
         <input 
           style={{ margin: "0.5em", padding: "0.5em", borderRadius:"7px"}}
           type={'number'}
-          min={0}
+          min={1}
           step={1}
           max={500}
           value={numSongsToLoad}
           onChange={onNumChange}
+          onKeyUp={(e) => {if (e.key==="Enter"){onSongLoadClick()}}}
         />
       </div>
     </>
