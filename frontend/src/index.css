@@ -63,6 +63,19 @@ button:focus-visible {
   background-color: rgb(51, 51, 51);
 }
 
+.bubble {
+  border-radius: 25px;
+  background-color: #00ff62;
+  margin: auto;
+  min-width: 25px;
+  float: right;
+  color: #242424;
+}
+.bubble:hover {
+  background-color: #0f4624;
+  color: #aaaaaa;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #202830;
