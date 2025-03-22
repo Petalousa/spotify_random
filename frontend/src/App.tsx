@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import './App.css'
 import axios, { AxiosResponse } from 'axios';
-import Tile from './components/tile';
+import Tile from './components/Tile';
 
 type Song = {
   name: string,
@@ -12,6 +12,7 @@ type Song = {
 
 function App() {
   const [songInfo, setSongInfo] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [numSongsToLoad, setNumSongsToLoad] = useState(10);
 
   
@@ -26,9 +27,13 @@ function App() {
 
   const loadSongs = useCallback((onSuccess: CallableFunction) => {
     console.log("Loading songs...");
+    setLoading(true);
     axios.get(`api/random?n=${numSongsToLoad}`).then(
-      (res)=>{onSuccess(res)},
-      (error) => {console.error(error.status, "Song endpoint failed", error.message)}
+      (res)=>{onSuccess(res); setLoading(false);},
+      (error) => {
+        console.error(error.status, "Song endpoint failed", error.message);
+        setLoading(false);
+      }
     );
   }, [numSongsToLoad])
 
@@ -42,6 +47,11 @@ function App() {
   const onNumChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // TODO cleanup input here so user can't input wierd stuff like 1000 or -1, or ""
     setNumSongsToLoad(parseInt(e.target.value));
+  }
+
+  let loadSongText = "Loading...";
+  if (!loading){
+    loadSongText = `Load ${numSongsToLoad} More Song${(numSongsToLoad > 1) ? "s" : ""}...`;
   }
 
   return (
@@ -58,8 +68,8 @@ function App() {
         })}
       </div>
       <div style={{padding: "1em"}}>
-        <button onClick={onSongLoadClick}>
-          Load {numSongsToLoad} More Song{(numSongsToLoad > 1) ? "s" : ""}...
+        <button disabled={loading} onClick={onSongLoadClick}>
+          {loadSongText}
         </button>
         <input 
           style={{ margin: "0.5em", padding: "0.5em", borderRadius:"7px"}}
