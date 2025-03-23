@@ -31,8 +31,9 @@ function App() {
     axios.get(`api/random?n=${numSongsToLoad}`).then(
       (res)=>{onSuccess(res); setLoading(false);},
       (error) => {
-        console.error(error.status, "Song endpoint failed", error.message);
         setLoading(false);
+        console.error(error.status, "Song endpoint failed", error.message);
+        alert("Unable to load songs - backend issue.")
       }
     );
   }, [numSongsToLoad])
